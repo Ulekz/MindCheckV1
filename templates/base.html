@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCheck</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-light text-dark">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="/">MindCheck</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/test">Realizar Test</a></li>
+                <li class="nav-item"><a class="nav-link" href="/recursos">Recursos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/nosotros">Sobre nosotros</a></li>
+                <li class="nav-item"><a href="/contacto" class="nav-link d-inline-flex align-items-center"><i class="fas fa-envelope me-1"></i> Contacto</a></li>
+                {% if 'usuario' not in session %}
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i> Admin</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('ver_mensajes') }}"><i class="fas fa-inbox"></i> Mensajes</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container">
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer class="mt-5 pt-4 pb-3 bg-light border-top">
+    <div class="container text-center">
+        <p class="mb-2">
+            <strong>MindCheck</strong> – Porque tu salud emocional importa 💙
+        </p>
+        <p class="mb-2 small fst-italic text-muted">
+            Este sitio es gratuito y fue creado con empatía y responsabilidad social.
+        </p>
+        <div class="mb-3">
+            <a href="/" class="mx-2 text-decoration-none text-secondary"><i class="fas fa-home"></i> Inicio</a>
+            <a href="/test" class="mx-2 text-decoration-none text-secondary"><i class="fas fa-clipboard-list"></i> Realizar Test</a>
+            <a href="/recursos" class="mx-2 text-decoration-none text-secondary"><i class="fas fa-book"></i> Recursos</a>
+            <a href="/nosotros" class="mx-2 text-decoration-none text-secondary"><i class="fas fa-users"></i> Sobre nosotros</a>
+            <a href="/contacto" class="mx-2 text-decoration-none text-secondary"><i class="fas fa-envelope"></i> Contacto</a>
+        </div>
+        <div class="text-muted small">
+            <i class="fas fa-copyright"></i> {{ now.year }} MindCheck · Todos los derechos reservados
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

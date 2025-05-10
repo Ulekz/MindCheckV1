@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mb-4 text-center">Test de Ansiedad GAD-7</h2>
+    <form method="POST" action="/resultado" onsubmit="return validarFormulario();">
+        {% set preguntas = [
+            '¿Con qué frecuencia te has sentido nervioso, ansioso o al borde de los nervios?',
+            '¿Con qué frecuencia no has podido dejar de preocuparte o has tenido dificultad para controlar tus preocupaciones?',
+            '¿Con qué frecuencia te has preocupado demasiado por diferentes cosas?',
+            '¿Con qué frecuencia has tenido dificultad para relajarte?',
+            '¿Con qué frecuencia has estado tan inquieto que te ha resultado difícil quedarte quieto?',
+            '¿Con qué frecuencia te has irritado o molestado con facilidad?',
+            '¿Con qué frecuencia has sentido miedo como si algo terrible pudiera pasar?'
+        ] %}
+
+        {% for i in range(7) %}
+        <div class="mb-4">
+            <label class="form-label"><strong>{{ i+1 }}. {{ preguntas[i] }}</strong></label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="0" required>
+                <label class="form-check-label">Nunca</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="1">
+                <label class="form-check-label">Varios días</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="2">
+                <label class="form-check-label">Más de la mitad de los días</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="3">
+                <label class="form-check-label">Casi todos los días</label>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-success btn-lg">Ver resultado</button>
+        </div>
+    </form>
+</div>
+
+<script>
+function validarFormulario() {
+    for (let i = 1; i <= 7; i++) {
+        const opciones = document.getElementsByName('pregunta' + i);
+        let respondida = false;
+        for (const opcion of opciones) {
+            if (opcion.checked) {
+                respondida = true;
+                break;
+            }
+        }
+        if (!respondida) {
+            alert('Por favor responde todas las preguntas antes de continuar.');
+            return false;
+        }
+    }
+    return true;
+}
+</script>
+{% endblock %}

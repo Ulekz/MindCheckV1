@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container text-center">
+    <h2 class="mt-4">Resultado de tu Test</h2>
+    <div class="card mx-auto mt-4 shadow-sm" style="max-width: 500px;">
+        <div class="card-body">
+            <h4 class="card-title">Nivel: {{ nivel }}</h4>
+            <p class="card-text">Puntaje total: <strong>{{ puntaje }}</strong> de 21</p>
+            <p class="card-text">{{ mensaje }}</p>
+        </div>
+    </div>
+
+    {% if recursos %}
+    <hr class="my-5">
+    <h3 class="text-center">Recomendaciones para ti</h3>
+    <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
+        {% for r in recursos %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ r.titulo }}</h5>
+                    <p class="card-text">{{ r.descripcion }}</p>
+                    <a href="{{ r.enlace }}" class="btn btn-outline-primary" target="_blank">{{ r.boton }}</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="mt-5">
+        <a href="/test" class="btn btn-secondary">Volver a realizar el test</a>
+    </div>
+</div>
+{% endblock %}

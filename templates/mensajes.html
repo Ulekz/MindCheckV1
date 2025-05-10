@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 fade-in">
+    <h2 class="text-center mb-4"><i class="fas fa-inbox"></i> Mensajes recibidos</h2>
+
+    <form class="row mb-4 justify-content-center" method="GET" action="{{ url_for('ver_mensajes') }}">
+        <div class="col-md-6 col-lg-4">
+            <input type="text" class="form-control" name="buscar" placeholder="Buscar por nombre o correo" value="{{ busqueda }}">
+        </div>
+        <div class="col-md-auto">
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search"></i> Buscar
+            </button>
+        </div>
+    </form>
+
+    <div class="text-end mb-3">
+        <a href="{{ url_for('exportar_mensajes', buscar=busqueda) }}" class="btn btn-outline-success">
+            <i class="fas fa-file-csv"></i> Exportar a CSV
+        </a>
+    </div>
+
+    {% if mensajes %}
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle shadow-sm">
+            <thead class="table-light">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                    <th>Mensaje</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in mensajes %}
+                <tr>
+                    <td>{{ m[1] }}</td>
+                    <td>{{ m[2] }}</td>
+                    <td>{{ m[3] }}</td>
+                    <td>{{ m[4] }}</td>
+                    <td class="text-center">
+                        <a href="{{ url_for('eliminar_mensaje', id=m[0]) }}" class="btn btn-sm btn-danger"
+                        onclick="return confirm('¿Seguro que deseas eliminar este mensaje?');">
+                        <i class="fas fa-trash-alt"></i> Eliminar
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if total_paginas > 1 %}
+        <nav aria-label="Paginación de mensajes">
+            <ul class="pagination justify-content-center mt-4">
+                {% if pagina > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('ver_mensajes', page=pagina-1, buscar=busqueda) }}">&laquo; Anterior</a>
+                </li>
+                {% endif %}
+
+                {% for p in range(1, total_paginas + 1) %}
+                <li class="page-item {% if p == pagina %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('ver_mensajes', page=p, buscar=busqueda) }}">{{ p }}</a>
+                </li>
+                {% endfor %}
+
+                {% if pagina < total_paginas %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('ver_mensajes', page=pagina+1, buscar=busqueda) }}">Siguiente &raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="alert alert-info text-center">
+        Aún no hay mensajes registrados.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
