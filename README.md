@@ -36,7 +36,7 @@ MindCheck es una aplicación web desarrollada con Flask que permite a los usuari
 1. Clona el repositorio:
 
 ```bash
-git clone https://github.com/tu_usuario/MindCheckV1.git
+git clone https://github.com/Ulekz/MindCheckV1.git
 cd MindCheckV1
 ```
 
