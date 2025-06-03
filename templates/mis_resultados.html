@@ -1,28 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container py-5 fade-in">
-    <h2 class="mb-4 text-gradient text-center"><i class="fas fa-chart-line me-2"></i> Mis Resultados</h2>
+<div class="resultados-wrapper fade-in">
+    <h2 class="resultados-titulo">
+        <i class="fas fa-chart-line me-2"></i> Mis Resultados
+    </h2>
 
     {% if resultados %}
-    <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="resultados-grid">
         {% for r in resultados %}
-        <div class="col">
-            <div class="glass-card card shadow-lg border-0 rounded-4 h-100 fade-in animate-delay-{{ loop.index }}">
-                <div class="card-body text-center">
-                    <h5 class="card-title fw-bold text-{{ 'success' if r[1] == 'Ansiedad mínima' else 'warning' if r[1] == 'Ansiedad leve' else 'danger' }}">
-                        {{ r[1] }}
-                    </h5>
-                    <p class="card-text">Puntaje: <strong>{{ r[0] }}</strong></p>
-                    <p class="card-text small text-muted">Fecha: {{ r[2] }}</p>
-                </div>
+        <div class="resultado-card fade-in animate-delay-{{ loop.index }}">
+            <div class="resultado-card-body text-center">
+                <h5 class="resultado-nivel text-{{ 'success' if r[1] == 'Ansiedad mínima' else 'warning' if r[1] == 'Ansiedad leve' else 'danger' }}">
+                    {{ r[1] }}
+                </h5>
+                <p class="resultado-puntaje">Puntaje: <strong>{{ r[0] }}</strong></p>
+                <p class="resultado-fecha">Fecha: {{ r[2] }}</p>
             </div>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <div class="alert alert-info text-center" role="alert">
-        Aún no has realizado ningún test. ¡Haz clic en <a href="{{ url_for('test') }}" class="fw-bold">Test</a> para comenzar!
+    <div class="resultados-alerta">
+        <i class="fas fa-info-circle me-2"></i> Aún no has realizado ningún test. 
+        <a href="{{ url_for('test') }}" class="resultados-link">Haz clic aquí para comenzar</a>.
     </div>
     {% endif %}
 </div>

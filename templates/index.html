@@ -1,35 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="text-center py-5 fade-in">
-    <h1 class="display-5 fw-bold text-gradient">Bienvenido a MindCheck</h1>
-    <p class="lead mt-3 opacity-75 text-gradient">Una herramienta gratuita, segura y confidencial para conocer tu bienestar emocional.</p>
-
-    <p class="text-secondary">Evalúa tu nivel de ansiedad en menos de 3 minutos con el test clínico GAD-7.</p>
-    <a href="/test" class="btn btn-lg btn-unique mt-3 px-5 shadow-lg pulse">
-        <i class="fas fa-heartbeat me-2"></i> Comenzar Test
-    </a>
-
-</div>
-
-<hr class="my-5">
-
-<div class="container fade-in">
-    <h3 class="text-center mb-4 text-gradient"><i class="fas fa-quote-left me-2"></i> Frases que inspiran</h3>
-    <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
+<div class="carousel fade-in mt-4">
+    <div class="list">
+        {% set frases = [
+            {"autor": "MindCheck", "tema": "Desconocido", "texto": "Buscar ayuda no es un signo de debilidad, sino de valentía.", "imagen": "imagen1.jpg"},
+            {"autor": "Desconocido", "tema": "MindCheck", "texto": "No tienes que tenerlo todo resuelto hoy. Respira, estás haciendo lo mejor que puedes.", "imagen": "imagen2.jpg"},
+            {"autor": "Anónimo", "tema": "MindCheck", "texto": "Está bien no estar bien todo el tiempo.", "imagen": "imagen3.jpg"},
+            {"autor": "MindCheck", "tema": "MindCheck", "texto": "Tu bienestar importa. Un paso a la vez.", "imagen": "imagen4.jpg"},
+        ] %}
         {% for f in frases %}
-        <div class="col">
-            <div class="card h-100 glass shadow-lg border-0 rounded-4 frase-card animate-delay-{{ loop.index }}">
-                <div class="card-body text-center">
-                    <i class="fas fa-heart fa-lg text-danger mb-3" aria-hidden="true"></i>
-                    <blockquote class="blockquote mb-0">
-                        <p class="fst-italic opacity-75">“{{ f.texto }}”</p>
-                        <footer class="blockquote-footer mt-2">{{ f.autor }}</footer>
-                    </blockquote>
+        <div class="item">
+            <img src="{{ url_for('static', filename='img/' ~ f.imagen) }}" alt="Frase {{ loop.index }}">
+            <div class="content">
+                <div class="author">{{ f.autor }}</div>
+                <div class="title">Frases que Inspiran</div>
+                <div class="topic">{{ f.tema }}</div>
+                <div class="des">{{ f.texto }}</div>
+                <div class="buttons">
+                    <button onclick="location.href='{{ url_for('contacto') }}'">Contacto</button>
+                    <button onclick="location.href='{{ url_for('login') }}'">Admin</button>
                 </div>
             </div>
         </div>
         {% endfor %}
+    </div>
+
+    <div class="thumbnail">
+        {% for f in frases %}
+        <div class="item">
+            <img src="{{ url_for('static', filename='img/' ~ f.imagen) }}" alt="Miniatura {{ loop.index }}">
+            <div class="content">
+                <div class="title">MindCheck</div>
+                <div class="description">{{ f.tema }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="arrows">
+        <button id="prev">&lt;</button>
+        <button id="next">&gt;</button>
     </div>
 </div>
 {% endblock %}

@@ -1,35 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container py-5 fade-in">
-    <h2 class="text-center mb-4"><i class="fas fa-user-plus me-2"></i> Registro de Usuario</h2>
+<div class="registro-wrapper fade-in">
+    <h2 class="registro-titulo">
+        <i class="fas fa-user-plus me-2"></i> Registro de Usuario
+    </h2>
 
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card p-4 rounded-4 shadow-sm">
-                <form method="POST">
-                    <div class="mb-3">
-                        <label class="form-label">Nombre completo</label>
-                        <input type="text" name="nombre" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Correo electrónico</label>
-                        <input type="email" name="correo" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Contraseña</label>
-                        <input type="password" name="contraseña" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Confirmar contraseña</label>
-                        <input type="password" name="confirmar" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-user-check me-2"></i> Registrarse
-                    </button>
-                </form>
+    <div class="registro-card">
+        <form method="POST" class="registro-form">
+            <div class="form-group">
+                <label for="nombre" class="registro-label">Nombre completo</label>
+                <input type="text" name="nombre" id="nombre" class="registro-input" required>
             </div>
-        </div>
+
+            <div class="form-group">
+                <label for="correo" class="registro-label">Correo electrónico</label>
+                <input type="email" name="correo" id="correo" class="registro-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contraseña" class="registro-label">Contraseña</label>
+                <input type="password" name="contraseña" id="contraseña" class="registro-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="confirmar" class="registro-label">Confirmar contraseña</label>
+                <input type="password" name="confirmar" id="confirmar" class="registro-input" required>
+            </div>
+
+            <button type="submit" class="btn-registro-submit">
+                <i class="fas fa-user-check me-2"></i> Registrarse
+            </button>
+        </form>
     </div>
 </div>
 {% endblock %}

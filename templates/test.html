@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container py-5 fade-in">
-    <h2 class="text-center mb-4 text-gradient"><i class="fas fa-clipboard-list me-2"></i> Test de Ansiedad GAD-7</h2>
+<div class="test-wrapper fade-in">
+    <h2 class="test-title">
+        <i class="fas fa-clipboard-list me-2"></i> Test de Ansiedad GAD-7
+    </h2>
 
-    <form method="POST" action="/resultado" onsubmit="return validarFormulario();">
+    <form method="POST" action="/resultado" onsubmit="return validarFormulario();" class="test-formulario">
         {% set preguntas = [
             '¿Con qué frecuencia te has sentido nervioso, ansioso o al borde de los nervios?',
             '¿Con qué frecuencia no has podido dejar de preocuparte o has tenido dificultad para controlar tus preocupaciones?',
@@ -16,17 +18,19 @@
         ] %}
 
         {% for i in range(7) %}
-        <div class="mb-4 glass shadow-lg p-4 rounded-4 fade-in animate-delay-{{ loop.index }}">
-            <label class="form-label fw-semibold"><strong>{{ i+1 }}.</strong> {{ preguntas[i] }}</label>
-            <div class="form-check mt-2"><input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="0" required><label class="form-check-label ms-2">Nunca</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="1"><label class="form-check-label ms-2">Varios días</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="2"><label class="form-check-label ms-2">Más de la mitad de los días</label></div>
-            <div class="form-check"><input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="3"><label class="form-check-label ms-2">Casi todos los días</label></div>
+        <div class="test-pregunta animate-delay-{{ loop.index }}">
+            <label class="test-label"><strong>{{ i+1 }}.</strong> {{ preguntas[i] }}</label>
+            <div class="test-opcion"><input type="radio" name="pregunta{{ i+1 }}" value="0" required> Nunca</div>
+            <div class="test-opcion"><input type="radio" name="pregunta{{ i+1 }}" value="1"> Varios días</div>
+            <div class="test-opcion"><input type="radio" name="pregunta{{ i+1 }}" value="2"> Más de la mitad de los días</div>
+            <div class="test-opcion"><input type="radio" name="pregunta{{ i+1 }}" value="3"> Casi todos los días</div>
         </div>
         {% endfor %}
 
-        <div class="text-center mt-5">
-            <button type="submit" class="btn btn-unique pulse"><i class="fas fa-check-circle me-2"></i> Ver resultado</button>
+        <div class="test-enviar">
+            <button type="submit" class="btn-enviar">
+                <i class="fas fa-check-circle me-2"></i> Ver resultado
+            </button>
         </div>
     </form>
 </div>
