@@ -5,6 +5,7 @@ import sqlite3
 from werkzeug.security import check_password_hash
 import csv
 from flask import make_response
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 app.secret_key = 'clave-super-secreta'
@@ -98,6 +99,19 @@ def resultado():
             }
         ]
 
+    # Guardar resultado si el usuario está logueado
+    if 'correo_usuario' in session:
+        correo = session['correo_usuario']
+        fecha = datetime.now().strftime('%d/%m/%Y %H:%M')
+        conn = sqlite3.connect('mindcheck.db')
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO resultados_test (correo_usuario, puntaje, nivel, fecha)
+            VALUES (?, ?, ?, ?)
+        ''', (correo, puntaje_total, nivel, fecha))
+        conn.commit()
+        conn.close()
+
     return render_template("resultado.html", puntaje=puntaje_total, nivel=nivel, mensaje=mensaje, recursos=recursos)
 
 @app.route('/nosotros')
@@ -137,9 +151,66 @@ def login():
 
     return render_template('login.html')
 
+@app.route('/login_usuario', methods=['GET', 'POST'])
+def login_usuario():
+    if request.method == 'POST':
+        correo = request.form['correo']
+        contraseña = request.form['contraseña']
+
+        conn = sqlite3.connect('mindcheck.db')
+        cursor = conn.cursor()
+        cursor.execute('SELECT id, contraseña_hash FROM usuarios_registrados WHERE correo = ?', (correo,))
+        usuario = cursor.fetchone()
+        conn.close()
+
+        if usuario and check_password_hash(usuario[1], contraseña):
+            session['correo_usuario'] = correo
+            session['id_usuario'] = usuario[0]
+            flash('Inicio de sesión exitoso.', 'success')
+            return redirect(url_for('index'))  # O a resultados del usuario
+        else:
+            flash('Correo o contraseña incorrectos.', 'danger')
+
+    return render_template('login_usuario.html')
+
+@app.route('/registro', methods=['GET', 'POST'])
+def registro():
+    if request.method == 'POST':
+        nombre = request.form['nombre']
+        correo = request.form['correo']
+        contraseña = request.form['contraseña']
+        confirmar = request.form['confirmar']
+
+        if contraseña != confirmar:
+            flash('Las contraseñas no coinciden.', 'warning')
+            return redirect(url_for('registro'))
+
+        contraseña_hash = generate_password_hash(contraseña)
+
+        conn = sqlite3.connect('mindcheck.db')
+        cursor = conn.cursor()
+
+        # Verificar si el correo ya existe
+        cursor.execute('SELECT id FROM usuarios_registrados WHERE correo = ?', (correo,))
+        if cursor.fetchone():
+            flash('Ya existe una cuenta con este correo.', 'danger')
+            conn.close()
+            return redirect(url_for('registro'))
+
+        # Insertar nuevo usuario
+        cursor.execute('INSERT INTO usuarios_registrados (nombre, correo, contraseña_hash) VALUES (?, ?, ?)',
+                       (nombre, correo, contraseña_hash))
+        conn.commit()
+        conn.close()
+
+        flash('Registro exitoso. Ahora puedes iniciar sesión.', 'success')
+        return redirect(url_for('login_usuario'))
+
+    return render_template('registro.html')
+
 @app.route('/logout')
 def logout():
-    session.pop('usuario', None)
+    session.clear()
     flash('Sesión cerrada correctamente.', 'info')
     return redirect(url_for('index'))
 
@@ -165,8 +236,13 @@ def ver_mensajes():
         where_clause = ' WHERE nombre LIKE ? OR correo LIKE ?'
         parametros = (f'%{busqueda}%', f'%{busqueda}%')
 
-    # Obtener mensajes filtrados
-    cursor.execute(f'SELECT id, nombre, correo, texto, fecha {query_base}{where_clause} ORDER BY id DESC LIMIT ? OFFSET ?', (*parametros, por_pagina, offset))
+    # Obtener mensajes filtrados (id, nombre, correo, telefono, texto, fecha, es_emergencia)
+    cursor.execute(f'''
+        SELECT id, nombre, correo, telefono, texto, fecha, es_emergencia
+        {query_base}{where_clause}
+        ORDER BY id DESC
+        LIMIT ? OFFSET ?
+    ''', (*parametros, por_pagina, offset))
     mensajes = cursor.fetchall()
 
     # Contar total filtrado
@@ -230,19 +306,78 @@ def eliminar_mensaje(id):
 def guardar_mensaje():
     nombre = request.form.get('nombre')
     correo = request.form.get('correo')
+    telefono = request.form.get('telefono')  # nuevo
     texto = request.form.get('mensaje')
+    es_emergencia = 1 if request.form.get('es_emergencia') == '1' else 0
     fecha = datetime.now().strftime('%d/%m/%Y %H:%M')
 
     conn = sqlite3.connect('mindcheck.db')
     cursor = conn.cursor()
-    cursor.execute('INSERT INTO mensajes (nombre, correo, texto, fecha) VALUES (?, ?, ?, ?)',
-                   (nombre, correo, texto, fecha))
+    cursor.execute('''
+        INSERT INTO mensajes (nombre, correo, telefono, texto, fecha, es_emergencia)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (nombre, correo, telefono, texto, fecha, es_emergencia))
     conn.commit()
     conn.close()
 
     flash('Gracias por tu mensaje. Lo hemos recibido.', 'success')
     return redirect(url_for('contacto'))
 
+@app.route('/mensaje/<int:id>')
+def ver_mensaje(id):
+    if 'usuario' not in session:
+        flash('Debes iniciar sesión para ver los mensajes.', 'warning')
+        return redirect(url_for('login'))
+
+    conn = sqlite3.connect('mindcheck.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM mensajes WHERE id = ?', (id,))
+    mensaje = cursor.fetchone()
+    conn.close()
+
+    if not mensaje:
+        flash('Mensaje no encontrado.', 'danger')
+        return redirect(url_for('ver_mensajes'))
+
+    return render_template('ver_mensaje.html', mensaje=mensaje)
+
+@app.route('/confirmar-eliminar/<int:id>')
+def confirmar_eliminar(id):
+    if 'usuario' not in session:
+        flash('Debes iniciar sesión para realizar esta acción.', 'warning')
+        return redirect(url_for('login'))
+
+    conn = sqlite3.connect('mindcheck.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT id, nombre FROM mensajes WHERE id = ?', (id,))
+    mensaje = cursor.fetchone()
+    conn.close()
+
+    if not mensaje:
+        flash('Mensaje no encontrado.', 'danger')
+        return redirect(url_for('ver_mensajes'))
+
+    return render_template('confirmar_eliminar.html', mensaje=mensaje)
+
+@app.route('/mis-resultados')
+def mis_resultados():
+    if 'correo_usuario' not in session:
+        flash('Debes iniciar sesión para ver tus resultados.', 'warning')
+        return redirect(url_for('login_usuario'))
+
+    correo = session['correo_usuario']
+    conn = sqlite3.connect('mindcheck.db')
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT puntaje, nivel, fecha
+        FROM resultados_test
+        WHERE correo_usuario = ?
+        ORDER BY fecha DESC
+    ''', (correo,))
+    resultados = cursor.fetchall()
+    conn.close()
+
+    return render_template('mis_resultados.html', resultados=resultados)
 
 
 if __name__ == '__main__':

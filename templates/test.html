@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <h2 class="mb-4 text-center">Test de Ansiedad GAD-7</h2>
+<div class="container py-5 fade-in">
+    <h2 class="text-center mb-4 text-gradient"><i class="fas fa-clipboard-list me-2"></i> Test de Ansiedad GAD-7</h2>
+
     <form method="POST" action="/resultado" onsubmit="return validarFormulario();">
         {% set preguntas = [
             '¿Con qué frecuencia te has sentido nervioso, ansioso o al borde de los nervios?',
@@ -15,29 +16,17 @@
         ] %}
 
         {% for i in range(7) %}
-        <div class="mb-4">
-            <label class="form-label"><strong>{{ i+1 }}. {{ preguntas[i] }}</strong></label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="0" required>
-                <label class="form-check-label">Nunca</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="1">
-                <label class="form-check-label">Varios días</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="2">
-                <label class="form-check-label">Más de la mitad de los días</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="3">
-                <label class="form-check-label">Casi todos los días</label>
-            </div>
+        <div class="mb-4 glass shadow-lg p-4 rounded-4 fade-in animate-delay-{{ loop.index }}">
+            <label class="form-label fw-semibold"><strong>{{ i+1 }}.</strong> {{ preguntas[i] }}</label>
+            <div class="form-check mt-2"><input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="0" required><label class="form-check-label ms-2">Nunca</label></div>
+            <div class="form-check"><input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="1"><label class="form-check-label ms-2">Varios días</label></div>
+            <div class="form-check"><input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="2"><label class="form-check-label ms-2">Más de la mitad de los días</label></div>
+            <div class="form-check"><input class="form-check-input" type="radio" name="pregunta{{ i+1 }}" value="3"><label class="form-check-label ms-2">Casi todos los días</label></div>
         </div>
         {% endfor %}
 
-        <div class="text-center">
-            <button type="submit" class="btn btn-success btn-lg">Ver resultado</button>
+        <div class="text-center mt-5">
+            <button type="submit" class="btn btn-unique pulse"><i class="fas fa-check-circle me-2"></i> Ver resultado</button>
         </div>
     </form>
 </div>

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 fade-in">
+    <div class="card shadow-sm rounded-4 border border-danger p-4 bg-white">
+        <h3 class="mb-3 text-danger">
+            <i class="fas fa-trash-alt me-2"></i>¿Eliminar este mensaje?
+        </h3>
+        <p>Estás a punto de eliminar el mensaje enviado por:</p>
+        <p class="fw-semibold text-primary"><i class="fas fa-user me-2"></i>{{ mensaje[1]|e }}</p>
+        <p class="text-muted fst-italic">Esta acción es irreversible.</p>
+
+        <div class="d-flex gap-3 mt-4">
+            <a href="{{ url_for('eliminar_mensaje', id=mensaje[0]) }}" class="btn btn-danger">
+                <i class="fas fa-check-circle me-1"></i> Sí, eliminar
+            </a>
+            <a href="{{ url_for('ver_mensajes') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-times-circle me-1"></i> Cancelar
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

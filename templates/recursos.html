@@ -1,93 +1,105 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container py-4">
-    <h2 class="text-center mb-4 fade-in">Recursos gratuitos de apoyo emocional</h2>
+<div class="container py-5 fade-in">
+    <h2 class="text-center mb-4 text-primary">
+        <i class="fas fa-hands-helping me-2"></i> Recursos gratuitos de apoyo emocional
+    </h2>
 
-    <p class="text-center mb-4 fade-in">
-        Estos recursos están disponibles en México y son accesibles de forma gratuita. Puedes usarlos en cualquier momento sin importar tu resultado en el test.
+    <p class="text-center footer-muted mb-5">
+        Estos recursos están disponibles en México y son accesibles de forma gratuita. Puedes usarlos en cualquier momento, sin importar tu resultado en el test.
     </p>
 
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-
         <!-- Recurso 1 -->
-        <div class="col fade-in">
-            <div class="card h-100 shadow-sm">
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 rounded-4 card-mode">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-phone"></i> Línea de la Vida (800 911 2000)</h5>
-                    <p class="card-text">Atención psicológica gratuita, 24/7, por parte del Gobierno de México.</p>
-                    <a href="https://www.gob.mx/salud/articulos/linea-de-la-vida-ayuda-profesional-para-personas-con-depresion" target="_blank" class="btn btn-outline-primary">
-                        <i class="fas fa-external-link-alt"></i> Ver información
-                    </a>
+                    <h5 class="card-title">
+                        <i class="fas fa-phone-alt me-2 text-primary"></i> Línea de la Vida (800 911 2000)
+                    </h5>
+                    <p class="card-text text-muted">
+                        Atención psicológica gratuita, 24/7, por parte del Gobierno de México.
+                    </p>
+                    <a href="https://www.gob.mx/salud/articulos/linea-de-la-vida-ayuda-profesional-para-personas-con-depresion" target="_blank" class="btn btn-outline-primary" aria-label="Abrir Línea de la Vida">Ver información</a>
                 </div>
             </div>
         </div>
 
         <!-- Recurso 2 -->
-        <div class="col fade-in">
-            <div class="card h-100 shadow-sm">
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 rounded-4 card-mode">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-comments"></i> Consejo Ciudadano (55 5533 5533)</h5>
-                    <p class="card-text">Apoyo emocional gratuito en todo México. Atención por WhatsApp y llamada.</p>
-                    <a href="https://consejociudadanomx.org/asi-te-ayudamos/contencion-emocional" target="_blank" class="btn btn-outline-primary">
-                        <i class="fas fa-external-link-alt"></i> Ir al sitio
-                    </a>
+                    <h5 class="card-title">
+                        <i class="fas fa-comments me-2 text-primary"></i> Consejo Ciudadano (55 5533 5533)
+                    </h5>
+                    <p class="card-text text-muted">
+                        Apoyo emocional gratuito en todo México. Atención por WhatsApp y llamada.
+                    </p>
+                    <a href="https://consejociudadanomx.org/asi-te-ayudamos/contencion-emocional" target="_blank" class="btn btn-outline-primary" aria-label="Ir al Consejo Ciudadano">Ir al sitio</a>
                 </div>
             </div>
         </div>
 
         <!-- Recurso 3 -->
-        <div class="col fade-in">
-            <div class="card h-100 shadow-sm">
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 rounded-4 card-mode">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-hospital-alt"></i> Directorio de Salud Mental</h5>
-                    <p class="card-text">Listado de hospitales y clínicas públicas con atención psicológica gratuita.</p>
-                    <a href="https://www.gob.mx/salud/acciones-y-programas/directorio-de-unidades-de-salud-mental" target="_blank" class="btn btn-outline-primary">
-                        <i class="fas fa-external-link-alt"></i> Consultar
-                    </a>
+                    <h5 class="card-title">
+                        <i class="fas fa-hospital-alt me-2 text-primary"></i> Directorio de Salud Mental
+                    </h5>
+                    <p class="card-text text-muted">
+                        Listado de hospitales y clínicas públicas con atención psicológica gratuita.
+                    </p>
+                    <a href="https://www.gob.mx/salud/acciones-y-programas/directorio-de-unidades-de-salud-mental" target="_blank" class="btn btn-outline-primary" aria-label="Ver directorio de salud mental">Consultar</a>
                 </div>
             </div>
         </div>
 
         <!-- Recurso 4 -->
-        <div class="col fade-in">
-            <div class="card h-100 shadow-sm">
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 rounded-4 card-mode">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-spa"></i> Meditación Guiada en Español</h5>
-                    <p class="card-text">Relajación guiada de 5 minutos, con voz clara en español.</p>
-                    <a href="https://www.youtube.com/watch?v=3opO2_k2uhI" target="_blank" class="btn btn-outline-success">
-                        <i class="fas fa-play-circle"></i> Ver video
-                    </a>
+                    <h5 class="card-title">
+                        <i class="fas fa-spa me-2 text-success"></i> Meditación Guiada en Español
+                    </h5>
+                    <p class="card-text text-muted">
+                        Relajación guiada de 5 minutos, con voz clara en español.
+                    </p>
+                    <a href="https://www.youtube.com/watch?v=3opO2_k2uhI" target="_blank" class="btn btn-outline-success" aria-label="Ver meditación guiada">Ver video</a>
                 </div>
             </div>
         </div>
 
         <!-- Recurso 5 -->
-        <div class="col fade-in">
-            <div class="card h-100 shadow-sm">
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 rounded-4 card-mode">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-wind"></i> Técnicas de Relajación</h5>
-                    <p class="card-text">Respiración, relajación muscular y visualización para reducir ansiedad.</p>
-                    <a href="https://www.helpguide.org/es/ansiedad/tecnicas-de-relajacion-para-aliviar-el-estres" target="_blank" class="btn btn-outline-success">
-                        <i class="fas fa-book-open"></i> Leer guía
-                    </a>
+                    <h5 class="card-title">
+                        <i class="fas fa-wind me-2 text-success"></i> Técnicas de Relajación
+                    </h5>
+                    <p class="card-text text-muted">
+                        Respiración, relajación muscular y visualización para reducir ansiedad.
+                    </p>
+                    <a href="https://www.helpguide.org/es/ansiedad/tecnicas-de-relajacion-para-aliviar-el-estres" target="_blank" class="btn btn-outline-success" aria-label="Leer guía de relajación">Leer guía</a>
                 </div>
             </div>
         </div>
 
         <!-- Recurso 6 -->
-        <div class="col fade-in">
-            <div class="card h-100 shadow-sm">
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 rounded-4 card-mode">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-file-alt"></i> Recursos descargables del NIMH</h5>
-                    <p class="card-text">Materiales informativos sobre salud mental en español.</p>
-                    <a href="https://www.nimh.nih.gov/get-involved/digital-shareables/espanol/recursos-para-compartir-sobre-la-salud-mental-en-espanol" target="_blank" class="btn btn-outline-info">
-                        <i class="fas fa-download"></i> Ver materiales
-                    </a>
+                    <h5 class="card-title">
+                        <i class="fas fa-file-alt me-2 text-info"></i> Recursos del NIMH (descargables)
+                    </h5>
+                    <p class="card-text text-muted">
+                        Materiales informativos sobre salud mental en español del Instituto Nacional de Salud Mental.
+                    </p>
+                    <a href="https://www.nimh.nih.gov/get-involved/digital-shareables/espanol/recursos-para-compartir-sobre-la-salud-mental-en-espanol" target="_blank" class="btn btn-outline-info" aria-label="Descargar recursos del NIMH">Ver materiales</a>
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 {% endblock %}

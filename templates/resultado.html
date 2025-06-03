@@ -1,27 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container text-center">
-    <h2 class="mt-4">Resultado de tu Test</h2>
-    <div class="card mx-auto mt-4 shadow-sm" style="max-width: 500px;">
+<div class="container py-5 fade-in text-center">
+    <h2 class="mb-4 text-gradient"><i class="fas fa-chart-line me-2"></i> Resultado de tu Test</h2>
+
+    <div class="glass mx-auto p-4 rounded-4 shadow-lg" style="max-width: 520px;">
         <div class="card-body">
-            <h4 class="card-title">Nivel: {{ nivel }}</h4>
-            <p class="card-text">Puntaje total: <strong>{{ puntaje }}</strong> de 21</p>
-            <p class="card-text">{{ mensaje }}</p>
+            <h4 class="card-title fw-bold text-{{ 'success' if puntaje <= 4 else 'warning' if puntaje <= 14 else 'danger' }}">
+                Nivel: {{ nivel if nivel else 'Desconocido' }}
+            </h4>
+            <p class="card-text fs-5">Puntaje total: <strong>{{ puntaje if puntaje is not none else 'N/A' }}</strong> de 21</p>
+            <p class="card-text opacity-75">{{ mensaje if mensaje else 'No se pudo determinar un mensaje.' }}</p>
         </div>
     </div>
 
     {% if recursos %}
     <hr class="my-5">
-    <h3 class="text-center">Recomendaciones para ti</h3>
-    <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
+    <h3 class="text-gradient mb-4"><i class="fas fa-lightbulb me-2"></i> Recomendaciones para ti</h3>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
         {% for r in recursos %}
         <div class="col">
-            <div class="card h-100 shadow-sm">
+            <div class="glass-card card h-100 border-0 rounded-4 shadow-lg fade-in animate-delay-{{ loop.index }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ r.titulo }}</h5>
-                    <p class="card-text">{{ r.descripcion }}</p>
-                    <a href="{{ r.enlace }}" class="btn btn-outline-primary" target="_blank">{{ r.boton }}</a>
+                    <h5 class="card-title text-primary"><i class="fas fa-book-open me-2"></i>{{ r.titulo }}</h5>
+                    <p class="card-text text-muted">{{ r.descripcion }}</p>
+                    <a href="{{ r.enlace }}" class="btn btn-outline-primary mt-2" target="_blank" rel="noopener noreferrer">
+                        {{ r.boton }}
+                    </a>
                 </div>
             </div>
         </div>
@@ -29,8 +34,12 @@
     </div>
     {% endif %}
 
-    <div class="mt-5">
-        <a href="/test" class="btn btn-secondary">Volver a realizar el test</a>
+    <div class="mt-5 d-flex justify-content-center flex-wrap gap-3">
+        <a href="/test" class="btn btn-unique pulse"><i class="fas fa-redo me-2"></i> Volver a realizar el test</a>
+
+        {% if session.correo_usuario %}
+        <a href="/mis-resultados" class="btn btn-outline-success"><i class="fas fa-user-check me-2"></i> Ver mis resultados anteriores</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

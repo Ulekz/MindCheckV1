@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container py-5 fade-in">
+    <div class="card shadow-sm rounded-4 p-4 bg-light">
+        <h3 class="mb-4 text-primary">
+            <i class="fas fa-envelope-open-text me-2"></i>Mensaje de {{ mensaje[1]|e }}
+        </h3>
+        <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item"><strong>Correo:</strong> {{ mensaje[2]|e }}</li>
+            <li class="list-group-item"><strong>Teléfono:</strong> {{ mensaje[3]|default('No proporcionado')|e }}</li>
+            <li class="list-group-item"><strong>Fecha:</strong> {{ mensaje[5]|e }}</li>
+            <li class="list-group-item">
+                <strong>Mensaje:</strong><br>
+                <div class="mt-2 text-wrap">{{ mensaje[4]|e }}</div>
+            </li>
+        </ul>
+        {% if mensaje[6] == 1 %}
+        <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            Este mensaje fue marcado como emergencia.
+        </div>
+        {% endif %}
+        <div class="text-end mt-4">
+            <a href="{{ url_for('ver_mensajes') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Volver a mensajes
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

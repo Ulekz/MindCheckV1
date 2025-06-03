@@ -12,15 +12,32 @@
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control" name="nombre" id="nombre" placeholder="Tu nombre" required>
                     </div>
+
                     <div class="mb-3">
                         <label for="correo" class="form-label">Correo electrónico</label>
                         <input type="email" class="form-control" name="correo" id="correo" placeholder="tunombre@email.com" required>
                     </div>
+
+                    <div class="mb-3">
+                        <label for="telefono" class="form-label">Teléfono (opcional)</label>
+                        <input type="tel" class="form-control" name="telefono" id="telefono" placeholder="Ej. 55 1234 5678">
+                    </div>
+
                     <div class="mb-3">
                         <label for="mensaje" class="form-label">Mensaje</label>
                         <textarea class="form-control" name="mensaje" id="mensaje" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100"><i class="fas fa-paper-plane"></i> Enviar mensaje</button>
+
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" id="es_emergencia" name="es_emergencia" value="1">
+                        <label class="form-check-label text-danger fw-semibold" for="es_emergencia">
+                            <i class="fas fa-exclamation-triangle me-1"></i> Necesito apoyo urgente
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-paper-plane me-2"></i> Enviar mensaje
+                    </button>
                 </form>
             </div>
         </div>
